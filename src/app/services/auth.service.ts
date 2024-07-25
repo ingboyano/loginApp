@@ -1,29 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from './user.service';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private users = [
-    { username: 'user1', password: 'password1' },
-    { username: 'user2', password: 'password2' }
-  ];
-
   private isLoggedIn = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private userService: UserService) { }
 
-  login(username: string, password: string): boolean {
-    const user = this.users.find(u => u.username === username && u.password === password);
-    if (user) {
-      this.isLoggedIn = true;
-      this.router.navigateByUrl('/home');
-      return true;
-    } else {
-      return false;
-    }
+  login(username: string, password: string): Observable<boolean> {
+    return this.userService.authenticate(username, password).pipe(
+      tap(isAuthenticated => {
+        if (isAuthenticated) {
+          this.isLoggedIn = true;
+          this.router.navigateByUrl('/home');
+        }
+      })
+    );
   }
 
   isAuthenticated(): boolean {

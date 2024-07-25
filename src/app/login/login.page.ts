@@ -13,9 +13,10 @@ export class LoginPage {
   constructor(private authService: AuthService) {}
 
   onLogin() {
-    const success = this.authService.login(this.username, this.password);
-    if (!success) {
-      alert('Login failed');
-    }
+    this.authService.login(this.username, this.password).subscribe(success => {
+      if (!success) {
+        alert('Login failed');
+      }
+    });
   }
 }

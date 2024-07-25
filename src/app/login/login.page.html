@@ -4,16 +4,41 @@
   </ion-toolbar>
 </ion-header>
 
+<div class="login-title">Login</div>
+
+<img src="https://img.freepik.com/vector-premium/personajes-dibujos-animados-redes-sociales_81522-1708.jpg" alt="Logo" class="login-logo" />
+
+
 <ion-content>
-  <form (submit)="onLogin()">
-    <ion-item>
-      <ion-label position="floating">Username</ion-label>
-      <ion-input [(ngModel)]="username" name="username"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input [(ngModel)]="password" name="password" type="password"></ion-input>
-    </ion-item>
-    <ion-button expand="full" type="submit">Login</ion-button>
-  </form>
+  <div class="login-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          Bienvenido!
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">Username</ion-label>
+          <ion-input [(ngModel)]="username" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input [(ngModel)]="password" type="password"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" (click)="onLogin()">Login</ion-button>
+
+        <div class="or-login-with">
+          <p>or login with</p>
+          <ion-button expand="block" color="danger">
+            <ion-icon slot="start" name="logo-google"></ion-icon>
+            Google
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
