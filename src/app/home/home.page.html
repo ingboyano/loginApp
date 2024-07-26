@@ -6,7 +6,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let group of chatGroups" class="chat-item">
+    <ion-item *ngFor="let group of chatGroups" class="chat-item" (click)="openChat(group)">
       <ion-label>
         {{ group.name }}
       </ion-label>

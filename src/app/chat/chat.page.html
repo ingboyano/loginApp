@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Chat</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngFor="let message of messages" [ngClass]="{'sent': message.sender === 'user1', 'received': message.sender !== 'user1'}" class="message-bubble">
+    <p>{{ message.content }}</p>
+    <span class="message-info">{{ message.sender }} - {{ message.sent_at }}</span>
+  </div>
+</ion-content>

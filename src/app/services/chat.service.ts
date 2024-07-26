@@ -7,11 +7,16 @@ import { Observable } from 'rxjs';
 })
 export class ChatService {
 
-  private apiUrl = 'https://www.hostcatedral.com/api/app-chat/public/group-members-by-user/1';
+  private groupsUrl = 'https://www.hostcatedral.com/api/app-chat/public/group-members-by-user/1';
+  private messagesUrl = 'https://www.hostcatedral.com/api/app-chat/public/group-messages-by-group/';
 
   constructor(private http: HttpClient) { }
 
   getChatGroups(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(this.groupsUrl);
+  }
+
+  getGroupMessages(groupId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.messagesUrl}${groupId}`);
   }
 }

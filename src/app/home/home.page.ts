@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ChatService } from '../services/chat.service';
 
 @Component({
@@ -7,13 +8,22 @@ import { ChatService } from '../services/chat.service';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+
   chatGroups: any[] = [];
 
-  constructor(private chatService: ChatService) { }
+  constructor(private chatService: ChatService, private router: Router) {}
 
   ngOnInit() {
-    this.chatService.getChatGroups().subscribe((data: any[]) => {
-      this.chatGroups = data;
+    this.loadChatGroups();
+  }
+
+  loadChatGroups() {
+    this.chatService.getChatGroups().subscribe((groups) => {
+      this.chatGroups = groups;
     });
+  }
+
+  openChat(group: any) {
+    this.router.navigate(['/chat', group.group_id]);
   }
 }
