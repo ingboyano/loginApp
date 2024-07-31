@@ -1,28 +1,33 @@
-ion-content {
-    .message-bubble {
-      max-width: 75%;
-      padding: 10px;
-      margin: 10px;
-      border-radius: 20px;
-      position: relative;
-      word-wrap: break-word;
-    }
-  
-    .sent {
-      background-color: #dcf8c6;
-      margin-left: auto;
-      text-align: right;
-    }
-  
-    .received {
-      background-color: #fff;
-      border: 1px solid #e5e5e5;
-      text-align: left;
-    }
-  
-    .message-info {
-      font-size: 0.75em;
-      color: #888;
-      display: block;
-    }
-  }
+.sent {
+  background-color: #dcf8c6;
+  text-align: right;
+}
+
+.received {
+  background-color: #fff;
+  text-align: left;
+}
+
+.message-bubble {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.message-info {
+  font-size: 0.8em;
+  color: gray;
+}
+
+ion-footer {
+  --background: #fff;
+  padding: 10px;
+}
+
+ion-textarea {
+  width: calc(100% - 90px); /* Ajusta el ancho según sea necesario */
+}
+
+ion-button {
+  margin-left: 10px;
+}

@@ -4,9 +4,16 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div *ngFor="let message of messages" [ngClass]="{'sent': message.sender === 'user1', 'received': message.sender !== 'user1'}" class="message-bubble">
+<ion-content #content>
+  <div *ngFor="let message of messages" [ngClass]="{'sent': message.sender === usuarioActual.username, 'received': message.sender !== usuarioActual.username}" class="message-bubble">
     <p>{{ message.content }}</p>
     <span class="message-info">{{ message.sender }} - {{ message.sent_at }}</span>
   </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-textarea [(ngModel)]="mensaje" (keyup.enter)="enviarMensaje()" placeholder="Escriba un mensaje..."></ion-textarea>
+    <ion-button [disabled]="!mensaje" shape="round" (click)="enviarMensaje()">Enviar</ion-button>
+  </ion-toolbar>
+</ion-footer>
