@@ -6,12 +6,21 @@
 
 <ion-content #content>
   <ion-list>
-    <ion-item *ngFor="let message of messages">
+    <ion-item *ngFor="let message of messages" [ngClass]="{'sent': message.sender_id === senderId, 'received': message.sender_id !== senderId}">
       <ion-label>
-        <h2>{{ message.sender_id }}</h2>
+        <h2>{{ message.sender_id === senderId ? 'Tú' : 'Usuario ' + message.sender_id }}</h2>
         <p>{{ message.content }}</p>
         <p>{{ message.sent_at }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-textarea [(ngModel)]="mensaje" placeholder="Escribe un mensaje..."></ion-textarea>
+    <ion-buttons slot="end">
+      <ion-button (click)="enviarMensajePrivado()">Enviar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

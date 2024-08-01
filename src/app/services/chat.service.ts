@@ -3,14 +3,22 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+interface MessageBody {
+  sender_id: string;
+  group_id: string;
+  content: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
   private groupsUrl = 'https://www.hostcatedral.com/api/app-chat/public/group-members-by-user/1';
-  private messagesUrl = 'https://www.hostcatedral.com/api/app-chat/public/group-messages-by-group';
-v  private privateChatsUrl = 'https://www.hostcatedral.com/api/app-chat/public/private-chats/';
+  private messagesUrl = 'https://www.hostcatedral.com/api/app-chat/public/group-messages-by-group/';
+  private sendMessageUrlGroup = 'https://www.hostcatedral.com/api/app-chat/public/group-messages';
+  private privateChatsUrl = 'https://www.hostcatedral.com/api/app-chat/public/private-chats/';
   private privateMessagesByUserUrl = 'https://www.hostcatedral.com/api/app-chat/public/private-messages-by-user/';
+  private sendPrivateMessageUrl = 'https://www.hostcatedral.com/api/app-chat/public/private-messages'; // URL para enviar mensajes privados
 
   constructor(private http: HttpClient) { }
 
@@ -26,9 +34,17 @@ v  private privateChatsUrl = 'https://www.hostcatedral.com/api/app-chat/public/p
     );
   }
 
-  sendMessage(body: any): Observable<any> {
-    console.log('Enviando Mensaje: ', body);
-    return this.http.post<any>(this.sendMessageUrl, body).pipe(
+  sendMessage(body: MessageBody): Observable<any> {
+    // Convertir todas las propiedades del objeto a cadenas
+    const stringifiedBody: MessageBody = {
+      sender_id: String(body.sender_id),
+      group_id: String(body.group_id),
+      content: String(body.content)
+    };
+
+    console.log('Enviando Mensaje: ', stringifiedBody);
+
+    return this.http.post<any>(this.sendMessageUrlGroup, stringifiedBody).pipe(
       catchError(this.handleError)
     );
   }
@@ -39,8 +55,22 @@ v  private privateChatsUrl = 'https://www.hostcatedral.com/api/app-chat/public/p
     );
   }
 
-  getPrivateMessagesByUser(senderId: number, receiverId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.privateMessagesByUserUrl}${senderId}/${receiverId}`).pipe(
+  getPrivateMessagesByUser(receiverId: number,senderId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.privateMessagesByUserUrl}${receiverId}/${senderId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  sendPrivateMessage(body: any): Observable<any> {
+    const stringifiedBody = {
+      sender_id: String(body.sender_id),
+      receiver_id: String(body.receiver_id),
+      content: String(body.content)
+    };
+
+    console.log('Enviando Mensaje Privado: ', stringifiedBody);
+
+    return this.http.post<any>(this.sendPrivateMessageUrl, stringifiedBody).pipe(
       catchError(this.handleError)
     );
   }
