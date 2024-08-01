@@ -9,10 +9,9 @@ import { IonContent } from '@ionic/angular';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit {
-  groupId: number = 0;
+  groupId: number | null = null;
   messages: any[] = [];
   usuarioActual: any = { id: 1, username: 'user1' }; // Inicializa con datos reales
-  receptor: any = { id: 2, username: 'user2' };     // Inicializa con datos reales
   mensaje: string = '';
   @ViewChild(IonContent, { static: false }) content: IonContent | null = null;
 
@@ -27,9 +26,11 @@ export class ChatPage implements OnInit {
   }
 
   loadMessages() {
-    this.chatService.getGroupMessages(this.groupId).subscribe((data: any) => {
-      this.messages = data;
-    });
+    if (this.groupId !== null) {
+      this.chatService.getGroupMessages(this.groupId).subscribe((data: any[]) => {
+        this.messages = data;
+      });
+    }
   }
 
   enviarMensaje() {
@@ -37,12 +38,12 @@ export class ChatPage implements OnInit {
       // No se puede enviar un mensaje vacío
       return;
     }
+    console.log('EL MENSAJE ES: ',this.mensaje);
 
     const body: any = {
-      sender_id: this.usuarioActual.id,
-      receiver_id: this.receptor.id,
-      content: this.mensaje,
-      sender: this.usuarioActual.username // Asegúrate de enviar el username del remitente
+      sender_id: String(this.usuarioActual.id),
+      group_id: String(1),
+      content: this.mensaje
     };
 
     this.chatService.sendMessage(body).subscribe({
