@@ -35,14 +35,16 @@ export class HomePage implements OnInit {
   }
 
   loadPrivateChats() {
-    const receiverId = this.userId === 1 ? 2 : 1; // Determina el otro usuario
-    this.privateChats = [{ id: receiverId, name: `user${receiverId}` }];
+    const users = [1, 2, 3];
+    this.privateChats = users.filter(id => id !== this.userId).map(id => ({ id, name: `user${id}` }));
   }
 
   openChat(groupId: number | undefined) {
-  
-      this.router.navigate(['/chat', 1]);
-    
+    if (groupId !== undefined) {
+      this.router.navigate(['/chat', groupId]);
+    } else {
+      this.errorMessage = 'groupId is undefined';
+    }
   }
 
   openPrivateChat(chatId: number | undefined) {

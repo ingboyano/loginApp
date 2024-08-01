@@ -16,7 +16,7 @@ export class LoginPage {
   onLogin() {
     this.authService.login(this.username, this.password).subscribe(success => {
       if (success) {
-        const userId = this.username === 'user1' ? 1 : this.username === 'user2' ? 2 : null;
+        const userId = this.username === 'user1' ? 1 : this.username === 'user2' ? 2 : this.username === 'user3' ? 3 : null;
         if (userId !== null) {
           localStorage.setItem('userId', userId.toString());
           this.router.navigate(['/home']);
